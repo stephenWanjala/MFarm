@@ -13,8 +13,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
+class LoginViewModel @Inject constructor
+    (private val repository: AuthRepository) : ViewModel() {
     private val _state = mutableStateOf(LoginUiState())
     val state: State<LoginUiState> = _state
     private val _loginState = MutableStateFlow(LoginState())
