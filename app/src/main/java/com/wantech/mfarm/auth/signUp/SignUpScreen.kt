@@ -1,4 +1,4 @@
-package com.wantech.mfarm.auth.signIn.presentation
+package com.wantech.mfarm.auth.signUp
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,12 +10,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wantech.mfarm.R
-import com.wantech.mfarm.auth.components.TextInPutSection
+import com.wantech.mfarm.auth.signUp.presentation.components.SignUpTextFields
 import com.wantech.mfarm.core.util.Screen
 
 
 @Composable
-fun SignInScreen(navController: NavController) {
+fun SignUpScreen(navController: NavController) {
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -25,45 +25,44 @@ fun SignInScreen(navController: NavController) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(16.dp)
                 .align(Alignment.Center),
 //            contentColor = MaterialTheme.colors.surface,
 //            backgroundColor = MaterialTheme.colors.onBackground,
             shape = RoundedCornerShape(12.dp),
 
             ) {
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
 //                    .align(Alignment.Center),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
 
-
-                TextInPutSection(
-                    buttonLabel = stringResource(id = R.string.sign_in),
-                    onClickLoginButton = { navController.navigate(Screen.Home.route) },
-                    onClickToSignUp = {
-                        navController.navigate(Screen.SignUp.route) {
-                            popUpTo(Screen.SignUp.route) {
+                SignUpTextFields(buttonLabel = stringResource(id = R.string.sign_up),
+                    toHome = {
+                        navController.navigate( Screen.Home.route) {
+                            popUpTo(
+                                Screen.Home.route
+                            ) {
                                 inclusive = true
                             }
                         }
                     },
-                    onForgetPassword = {
-                        navController.navigate(Screen.ForgotPassword.route) {
-                            popUpTo(Screen.ForgotPassword.route) {
+                    onClickToLogin = {
+                        navController.navigate(Screen.SignIn.route) {
+                            popUpTo(
+                                Screen.SignIn
+                                    .route
+                            ) {
                                 inclusive = true
                             }
                         }
-                    },
-
-                    )
-
+                    })
             }
+
         }
-
-
     }
 }

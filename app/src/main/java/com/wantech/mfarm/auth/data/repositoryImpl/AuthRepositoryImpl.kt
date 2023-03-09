@@ -4,8 +4,9 @@ import com.wantech.mfarm.auth.domain.repository.AuthRepository
 import com.wantech.mfarm.core.util.AuthResult
 import com.wantech.mfarm.core.util.Resource
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class AuthRepositoryImpl : AuthRepository {
+class AuthRepositoryImpl @Inject constructor(): AuthRepository {
     override suspend fun signInUserWithEmailAndPassword(
         email: String,
         password: String

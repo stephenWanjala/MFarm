@@ -19,11 +19,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.wantech.mfarm.R
-import com.wantech.mfarm.auth.data.repositoryImpl.AuthRepositoryImpl
 import com.wantech.mfarm.auth.signIn.LoginEvent
 import com.wantech.mfarm.auth.signIn.presentation.LoginViewModel
-import com.wantech.mfarm.core.presentation.components.AButton
+import com.wantech.mfarm.core.presentation.components.ATextButton
 import com.wantech.mfarm.core.presentation.components.InputTextField
 import com.wantech.mfarm.core.presentation.components.PasswordTextField
 
@@ -33,7 +33,7 @@ fun TextInPutSection(
     onClickLoginButton: () -> Unit,
     onClickToSignUp: () -> Unit,
     onForgetPassword: () -> Unit,
-    viewModel: LoginViewModel = LoginViewModel(AuthRepositoryImpl())
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
 
 
@@ -125,7 +125,7 @@ fun TextInPutSection(
                             )
                         }
 
-                        AButton(text = stringResource(id = R.string.sign_in),
+                        ATextButton(text = stringResource(id = R.string.sign_in),
                             onClick = {
                                 onClickLoginButton()
 
@@ -233,7 +233,7 @@ fun TextInPutSection(
                                 )
                             }
                         }
-                        AButton(
+                        ATextButton(
                             text = buttonLabel,
                             onClick = onClickLoginButton,
                             modifier = Modifier,
