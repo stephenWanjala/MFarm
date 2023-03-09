@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MFarm</string>
+    <string name="sign_in_welcome_text">Hello And Welcome Back</string>
+    <string name="createAccount">Create Account</string>
+    <string name="dont_Have_account">Don\'t Have Account?</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in">Sign In</string>
+    <string name="error_unknown">Unknown Error Happened</string>
 </resources>
