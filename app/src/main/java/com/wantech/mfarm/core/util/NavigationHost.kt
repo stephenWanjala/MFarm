@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.wantech.mfarm.auth.forgot_password.presentation.ForgotPasswordScreen
 import com.wantech.mfarm.auth.signIn.presentation.SignInScreen
 import com.wantech.mfarm.auth.signUp.SignUpScreen
+import com.wantech.mfarm.mFarm_home.presentation.HomeScreen
 
 @Composable
 fun NavigationHost(navController: NavHostController) {
@@ -20,6 +21,10 @@ fun NavigationHost(navController: NavHostController) {
         }
         composable(Screen.ForgotPassword.route) {
             ForgotPasswordScreen(navController = navController)
+        }
+
+        composable(Screen.Home.route) {
+            HomeScreen(navController = navController)
         }
 
     }
