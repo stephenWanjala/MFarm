@@ -12,6 +12,7 @@ import com.wantech.mfarm.core.util.NavigationHost
 import com.wantech.mfarm.ui.theme.MFarmTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -199,6 +199,7 @@ fun SignUpTextFields(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
                             ),
+                            errorMessage = "Enter valid PassWord",
                         )
 
                         ATextButton(

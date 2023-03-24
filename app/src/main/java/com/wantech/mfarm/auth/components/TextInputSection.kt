@@ -84,8 +84,10 @@ fun TextInPutSection(
                                 modifier = Modifier.weight(0.5f),
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Email,
-                                    imeAction = ImeAction.Next
-                                )
+                                    imeAction = ImeAction.Next,
+                                ),
+                                isError = state.isEmailError != null,
+                                errorMessage = "Invalid Email Address"
 
                             )
 
@@ -102,8 +104,9 @@ fun TextInPutSection(
                                 },
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
-                                )
-
+                                ),
+                                isError = state.isPasswordError != null,
+                                errorMessage = "Enter valid PassWord"
                             )
 
                         }
@@ -133,9 +136,7 @@ fun TextInPutSection(
                             modifier = Modifier.fillMaxWidth(0.6f),
                             buttonEnabled = {
 
-                                state.password.isNotBlank() && ((state.password.length >= 8) && state.email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
-                                    state.email
-                                ).matches())
+                                state.isLoginButtonEnabled
                             }
 
                         )
@@ -191,7 +192,8 @@ fun TextInPutSection(
                             textValue = state.email,
                             labelText = "Email",
                             onValueChange = { viewModel.onEvent(LoginEvent.EnteredEmail(it)) },
-
+                            isError = state.isEmailError!=null,
+                            errorMessage = "Enter valid Email Address"
                             )
 
 
@@ -206,6 +208,8 @@ fun TextInPutSection(
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
                             ),
+                            errorMessage = "Enter a Strong Password",
+                            isError = state.isPasswordError!=null
 
                             )
 
@@ -239,9 +243,7 @@ fun TextInPutSection(
                             modifier = Modifier,
                             buttonEnabled =
                             {
-                                state.password.isNotBlank() && ((state.password.length >= 8) && state.email.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
-                                    state.email
-                                ).matches())
+                          state.isLoginButtonEnabled
                             }
 
                         )

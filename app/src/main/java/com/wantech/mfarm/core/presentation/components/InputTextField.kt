@@ -31,7 +31,9 @@ fun InputTextField(
         keyboardType = KeyboardType.Email
     ),
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    onSendAction: (() -> Unit?)? = null
+    onSendAction: (() -> Unit?)? = null,
+    isError: Boolean = false,
+    errorMessage: String?=null
 
 ) {
     Box(
@@ -75,7 +77,17 @@ fun InputTextField(
             ),
             visualTransformation = visualTransformation,
             maxLines = maxLines,
-            shape = RoundedCornerShape(10.dp)
+            shape = RoundedCornerShape(10.dp),
+            isError = isError,
+            supportingText = {
+                if (isError){
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = errorMessage ?:"Invalid Input",
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
         )
 
     }

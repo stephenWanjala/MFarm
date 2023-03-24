@@ -1,5 +1,6 @@
 package com.wantech.mfarm.auth.signIn.presentation
 
+import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -14,7 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.regex.Pattern
 import javax.inject.Inject
+
 @HiltViewModel
 class LoginViewModel @Inject constructor
     (private val repository: AuthRepository) : ViewModel() {
@@ -22,23 +25,40 @@ class LoginViewModel @Inject constructor
     val state: State<LoginUiState> = _state
     private val _loginState = MutableStateFlow(LoginState())
     val loginState = _loginState.asSharedFlow()
+    val passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,10}$"
 
 
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.EnteredEmail -> {
+                if (!Patterns.EMAIL_ADDRESS.matcher(event.value).matches()) {
+                    _state.value =
+                        state.value.copy(isEmailError = LoginUiState.EmailError.InvalidEmail)
+                } else {
+                    _state.value = state.value.copy(isEmailError = null)
+
+                }
                 _state.value = state.value.copy(email = event.value)
             }
             is LoginEvent.EnteredPassword -> {
+                if (!Pattern.matches(passwordRegex, event.value)) {
+                    _state.value =
+                        state.value.copy(isPasswordError = LoginUiState.PasswordError.InvalidPassword)
+                } else {
+                    _state.value = state.value.copy(isPasswordError = null)
+
+                }
                 _state.value = state.value.copy(password = event.value)
             }
             LoginEvent.TogglePasswordVisibility -> {
                 _state.value = state.value.copy(isPasswordVisible = !state.value.isPasswordVisible)
             }
             LoginEvent.Login -> {
+
                 login(email = state.value.email, password = state.value.password)
             }
         }
+       _state.value= state.value.copy(isLoginButtonEnabled = (state.value.isPasswordError == null && state.value.isEmailError == null))
 
     }
 

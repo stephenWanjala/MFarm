@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextField(
@@ -34,7 +35,11 @@ fun PasswordTextField(
         imeAction = ImeAction.Next,
         keyboardType = KeyboardType.Email
     ),
-    onSendAction: (() -> Unit?)? = null
+    onSendAction: (() -> Unit?)? = null,
+    isError: Boolean = false,
+    allowedLimit: Int = 8,
+    errorMessage: String?=null
+
 
 ) {
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
@@ -82,7 +87,16 @@ fun PasswordTextField(
                 '*'
             ),
             maxLines = maxLines,
-            shape = RoundedCornerShape(10.dp)
+            shape = RoundedCornerShape(10.dp),
+            isError = isError,
+            supportingText = {
+                if (isError){
+                    Text(
+                        modifier=  Modifier.fillMaxWidth(),
+                        text =errorMessage ?:"Short Password: ${textValue.length}/$allowedLimit",
+                        color = MaterialTheme.colorScheme.error)
+                }
+            }
 
         )
 
@@ -103,10 +117,13 @@ fun PasswordTextField(
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions = KeyboardOptions(
         imeAction = ImeAction.Next,
-        keyboardType = KeyboardType.Email,
+        keyboardType = KeyboardType.Password,
 
         ),
-    onSendAction: (() -> Unit?)? = null
+    onSendAction: (() -> Unit?)? = null,
+    isError:Boolean =false,
+    allowedLimit:Int =8,
+    errorMessage:String?=null
 
 ) {
     var passwordVisibility: Boolean by remember { mutableStateOf(false) }
@@ -155,7 +172,16 @@ fun PasswordTextField(
             ),
             maxLines = maxLines,
             shape = RoundedCornerShape(10.dp),
-            modifier = passwordModifier
+            modifier = passwordModifier,
+            isError = isError,
+            supportingText = {
+                if (isError){
+                    Text(
+                      modifier=  Modifier.fillMaxWidth(),
+                        text = errorMessage?:"Enter a valid Password",
+                     color = MaterialTheme.colorScheme.error)
+                }
+            }
 
         )
 
