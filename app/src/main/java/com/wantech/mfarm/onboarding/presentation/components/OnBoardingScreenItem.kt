@@ -46,7 +46,7 @@ fun OnBoardingScreenItem(
             Spacer(modifier = Modifier.height(6.dp))
             Text(
                 text = onBoardingItem.description,
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.weight(1f)
             )
             ATextButton(
