@@ -14,7 +14,7 @@ import com.wantech.mfarm.onboarding.presentation.OnBoardingScreen
 fun NavigationHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Screen.OnBoarding.route) {
         composable(Screen.OnBoarding.route){
-            OnBoardingScreen()
+            OnBoardingScreen(navController = navController)
         }
 
         composable(Screen.SignIn.route) {
