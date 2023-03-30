@@ -5,5 +5,6 @@ sealed class Screen(val route:String){
     object SignUp:Screen("sign_up")
     object SignIn:Screen("sign_in")
     object ForgotPassword:Screen("forgot_password")
+    object OnBoarding:Screen("on_boarding")
 
 }

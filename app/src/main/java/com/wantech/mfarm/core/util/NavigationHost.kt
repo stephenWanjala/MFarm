@@ -8,10 +8,14 @@ import com.wantech.mfarm.auth.forgot_password.presentation.ForgotPasswordScreen
 import com.wantech.mfarm.auth.signIn.presentation.SignInScreen
 import com.wantech.mfarm.auth.signUp.SignUpScreen
 import com.wantech.mfarm.mFarm_home.presentation.HomeScreen
+import com.wantech.mfarm.onboarding.presentation.OnBoardingScreen
 
 @Composable
 fun NavigationHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.SignIn.route) {
+    NavHost(navController = navController, startDestination = Screen.OnBoarding.route) {
+        composable(Screen.OnBoarding.route){
+            OnBoardingScreen()
+        }
 
         composable(Screen.SignIn.route) {
             SignInScreen(navController = navController)
