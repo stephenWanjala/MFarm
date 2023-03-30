@@ -1,6 +1,6 @@
 package com.wantech.mfarm.auth.signIn
 
-import com.wantech.mfarm.core.util.AuthResult
+import com.wantech.mfarm.core.domain.model.LoginResponse
 import com.wantech.mfarm.core.util.UiText
 
 sealed class LoginEvent {
@@ -34,6 +34,6 @@ data class LoginUiState(
 
 data class LoginState(
     val isLoading: Boolean = false,
-    val login: AuthResult? = null,
+    val login: LoginResponse? = null,
     val error: UiText? = null
 )
