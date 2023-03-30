@@ -1,20 +1,20 @@
 package com.wantech.mfarm.auth.domain.repository
 
-import com.wantech.mfarm.core.util.AuthResult
+import com.wantech.mfarm.core.domain.model.LoginRequest
+import com.wantech.mfarm.core.domain.model.LoginResponse
+import com.wantech.mfarm.core.domain.model.RegisterRequest
+import com.wantech.mfarm.core.domain.model.RegisterResponse
 import com.wantech.mfarm.core.util.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun signInUserWithEmailAndPassword(
-        email: String,
-        password: String
-    ): Flow<Resource<AuthResult>>
+        loginRequest: LoginRequest
+    ): Flow<Resource<LoginResponse>>
 
     suspend fun createUserWithEmailAndPassword(
-        email: String,
-        password: String,
-        userName: String
-    ): Flow<Resource<AuthResult>>
+        registerRequest: RegisterRequest
+    ): Flow<Resource<RegisterResponse>>
 
     fun isCurrentUserExist(): Flow<Boolean>
 

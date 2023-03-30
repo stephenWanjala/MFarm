@@ -9,9 +9,11 @@ import com.wantech.mfarm.auth.domain.repository.AuthRepository
 import com.wantech.mfarm.auth.signIn.LoginEvent
 import com.wantech.mfarm.auth.signIn.LoginState
 import com.wantech.mfarm.auth.signIn.LoginUiState
+import com.wantech.mfarm.core.domain.model.LoginRequest
 import com.wantech.mfarm.core.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -24,8 +26,9 @@ class LoginViewModel @Inject constructor
     private val _state = mutableStateOf(LoginUiState())
     val state: State<LoginUiState> = _state
     private val _loginState = MutableStateFlow(LoginState())
-    val loginState = _loginState.asSharedFlow()
-    val passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,10}$"
+    val loginState: SharedFlow<LoginState> = _loginState.asSharedFlow()
+    private val passwordRegex =
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,10}$"
 
 
     fun onEvent(event: LoginEvent) {
@@ -58,13 +61,14 @@ class LoginViewModel @Inject constructor
                 login(email = state.value.email, password = state.value.password)
             }
         }
-       _state.value= state.value.copy(isLoginButtonEnabled = (state.value.isPasswordError == null && state.value.isEmailError == null))
+        _state.value =
+            state.value.copy(isLoginButtonEnabled = (state.value.isPasswordError == null && state.value.isEmailError == null))
 
     }
 
     private fun login(email: String, password: String) {
         viewModelScope.launch {
-            repository.signInUserWithEmailAndPassword(email = email, password = password)
+            repository.signInUserWithEmailAndPassword(LoginRequest(email, password))
                 .onEach { resource ->
                     when (resource) {
                         is Resource.Error -> {
