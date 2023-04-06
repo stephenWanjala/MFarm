@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.map
 class MFarmPreferences(private val dataStore: DataStore<Preferences>) {
     companion object {
         val ONBOARDED = booleanPreferencesKey("alreadyBoarded")
+        val MFARMPREFERENCES = "mFarm_Preferences"
     }
 
     suspend fun saveOnBoard(onBoard: Boolean) {

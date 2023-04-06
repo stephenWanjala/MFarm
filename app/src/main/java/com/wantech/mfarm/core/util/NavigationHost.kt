@@ -11,16 +11,17 @@ import com.wantech.mfarm.mFarm_home.presentation.HomeScreen
 import com.wantech.mfarm.onboarding.presentation.OnBoardingScreen
 
 @Composable
-fun NavigationHost(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Screen.OnBoarding.route) {
-        composable(Screen.OnBoarding.route){
+fun NavigationHost(navController: NavHostController, isOnBoarded: Boolean) {
+    val startDestination = if (isOnBoarded) Screen.SignIn.route else Screen.OnBoarding.route
+    NavHost(navController = navController, startDestination = startDestination) {
+        composable(Screen.OnBoarding.route) {
             OnBoardingScreen(navController = navController)
         }
 
         composable(Screen.SignIn.route) {
             SignInScreen(navController = navController)
         }
-        composable(Screen.SignUp.route){
+        composable(Screen.SignUp.route) {
             SignUpScreen(navController = navController)
         }
         composable(Screen.ForgotPassword.route) {

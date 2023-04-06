@@ -3,16 +3,12 @@ package com.wantech.mfarm.auth.signUp
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.wantech.mfarm.auth.domain.repository.AuthRepository
 import com.wantech.mfarm.auth.signUp.util.SignUpState
 import com.wantech.mfarm.auth.signUp.util.SignUpUIState
-import com.wantech.mfarm.core.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,11 +32,11 @@ class SignUpViewModel @Inject constructor(private val repository: AuthRepository
             _state.value = state.value.copy(userName = event.value)
         }
         SignupEvent.Signup -> {
-            signUp(
-                userName = state.value.userName.trim(),
-                email = state.value.email.trim(),
-                password = state.value.password.trim()
-            )
+//            signUp(
+//                userName = state.value.userName.trim(),
+//                email = state.value.email.trim(),
+//                password = state.value.password.trim()
+//            )
 
         }
         SignupEvent.TogglePasswordVisibility -> {
@@ -49,10 +45,16 @@ class SignUpViewModel @Inject constructor(private val repository: AuthRepository
     }
 
 
-    private fun signUp(userName: String, email: String, password: String) {
-        viewModelScope.launch {
+    private fun signUp(userName: String, email: String, password: String, phone: String) {
+       /* viewModelScope.launch {
             repository.createUserWithEmailAndPassword(
-                email = userName, password = email, userName = password
+                registerRequest = RegisterRequest(
+                    name = userName,
+                    email = email,
+                    phone = phone,
+                    password = password,
+
+                )
             ).onEach { resource ->
                 when (resource) {
                     is Resource.Error -> {
@@ -66,6 +68,6 @@ class SignUpViewModel @Inject constructor(private val repository: AuthRepository
                     }
                 }
             }
-        }
+        }*/
     }
 }

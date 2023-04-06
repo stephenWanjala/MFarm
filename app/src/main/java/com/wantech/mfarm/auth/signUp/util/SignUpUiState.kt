@@ -1,6 +1,6 @@
 package com.wantech.mfarm.auth.signUp.util
 
-import com.wantech.mfarm.core.util.AuthResult
+import com.wantech.mfarm.core.domain.model.RegisterResponse
 import com.wantech.mfarm.core.util.UiText
 
 
@@ -39,6 +39,6 @@ data class SignUpUIState(
 
 data class SignUpState(
     val isLoading: Boolean = false,
-    val signUp: AuthResult? = null,
+    val signUp: RegisterResponse? = null,
     val error: UiText? = null
 )

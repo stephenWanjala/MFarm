@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -23,7 +24,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun OnBoardingScreen(navController: NavHostController) {
+fun OnBoardingScreen(
+    navController: NavHostController,
+    viewModel: UserDataVieModel = hiltViewModel()
+) {
     val onBoardingItems = listOf(
         OnBoardingItem(
             image = painterResource(id = R.drawable.boy),
@@ -64,6 +68,7 @@ fun OnBoardingScreen(navController: NavHostController) {
                         pagerState.animateScrollToPage(page + 1)
                     }
                 } else {
+                    viewModel.updateOnBoarding(true)
                     navController.navigate(Screen.SignIn.route) {
                         navController.popBackStack(
                             route = Screen.OnBoarding.route,
