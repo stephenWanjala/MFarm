@@ -18,10 +18,13 @@ Installation
 The Sacco Milk Procurement Android App - Farmer Version can be downloaded from the Google Play Store.
 Usage
 
-Once installed, farmers can register on the app and start logging their milk deliveries. The app will calculate payment based on the quantity and quality of the milk delivered. Farmers can request payment directly from the app and will receive a notification when their payment is processed.
+Once installed, farmers can register on the app  to milk societies close to their location,the  logs their milk deliveries. The app will calculate payment based on the quantity and quality of the milk delivered. Farmers can request payment directly from the app and will receive a notification when their payment is processed.
+
 Support
 
 If you encounter any issues with the app or have any suggestions for improvement, please contact us through our support email.
+[stephenwanjala145@gmail.com](mailto:stephenwanjala145@gmail.com)
+
 Conclusion
 
-The Sacco Milk Procurement Android App - Farmer Version is a tool that empowers rural milk farmers to receive fair payment for their milk produce. With this app, farmers can interact directly with milk saccos and eliminate the need for middlemen, resulting in increased income for farmers.
+The Sacco Milk Procurement Android App - Farmer Version is a tool that empowers rural milk farmers to receive fair payment for their milk produce. With this app, farmers can interact directly with milk societies and eliminate the need for middlemen, resulting in increased income for farmers.
