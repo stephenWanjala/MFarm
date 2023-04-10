@@ -134,8 +134,8 @@ dependencies {
 
     //systemUi controller
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
-
-
+    //easy permissions library
+    implementation "com.google.accompanist:accompanist-permissions:0.25.1"
 }
 
 kapt {

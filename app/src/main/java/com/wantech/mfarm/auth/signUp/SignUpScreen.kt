@@ -1,6 +1,7 @@
 package com.wantech.mfarm.auth.signUp
 
 import android.content.pm.ActivityInfo
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,10 @@ fun SignUpScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        BackHandler(enabled = currentScreen > 0) {
+            currentScreen--
+        }
+
         SignUpProgressIndicator(
             screen = currentScreen,
             modifier = Modifier.align(Alignment.TopCenter)
@@ -31,6 +36,7 @@ fun SignUpScreen(navController: NavController) {
         modifier = Modifier.clickable {
             currentScreen++
         })
+
     }
 
 
