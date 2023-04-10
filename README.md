@@ -24,6 +24,7 @@ Support
 
 If you encounter any issues with the app or have any suggestions for improvement, please contact us through.
 [Wanjala Stephen](mailto:stephenwanjala145@gmail.com)
+
 [maina Alex](mailto:mainaalex789@gmail.com)
 
 Conclusion
