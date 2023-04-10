@@ -20,6 +20,11 @@ fun SignUpScreen(navController: NavController) {
     var currentScreen by remember {
         mutableStateOf(0)
     }
+    val screens = listOf(
+        SignUpPageParts.LocationAndSacco,
+        SignUpPageParts.PersonalDetails,
+        SignUpPageParts.AuthCredentials
+    )
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -34,7 +39,9 @@ fun SignUpScreen(navController: NavController) {
         )
         Text(text = "Screen $currentScreen",
         modifier = Modifier.clickable {
-            currentScreen++
+            if (currentScreen < screens.lastIndex) {
+                currentScreen++
+            }
         })
 
     }
