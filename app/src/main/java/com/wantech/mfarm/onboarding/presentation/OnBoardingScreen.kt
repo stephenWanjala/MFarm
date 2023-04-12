@@ -32,7 +32,7 @@ fun OnBoardingScreen(
         OnBoardingItem(
             image = painterResource(id = R.drawable.boy),
             title = "Welcome To MFarm ",
-            description = "With our App Farmers like you can delivery Milk produce directly to The society\n" +
+            description = "With our App Farmers like you can deliver Milk produce directly to The society\n" +
                     "No more middleman to cut your profits"
         ),
 
