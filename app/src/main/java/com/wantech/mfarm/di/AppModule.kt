@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.google.android.gms.location.LocationServices
 import com.wantech.mfarm.auth.data.repositoryImpl.AuthRepositoryImpl
 import com.wantech.mfarm.auth.domain.repository.AuthRepository
 import com.wantech.mfarm.core.data.MFarmPreferences
@@ -44,4 +45,11 @@ object AppModule {
     @Singleton
     fun provideUserDataRepository(mFarmPreferences: MFarmPreferences): UserDataRepository =
         UserdataRepositoryImpl(mFarmPreferences = mFarmPreferences)
+
+
+    @Provides
+    @Singleton
+    fun provideFusedNetworkProvider(@ApplicationContext context: Context)
+    = LocationServices.getFusedLocationProviderClient(context)
+
 }

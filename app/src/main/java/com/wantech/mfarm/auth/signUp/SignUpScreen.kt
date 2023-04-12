@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.wantech.mfarm.auth.signUp.presentation.CheckForLocationPermission
 import com.wantech.mfarm.auth.signUp.presentation.components.SignUpProgressIndicator
 import com.wantech.mfarm.core.util.LockScreenOrientation
 
@@ -37,12 +38,14 @@ fun SignUpScreen(navController: NavController) {
             screen = currentScreen,
             modifier = Modifier.align(Alignment.TopCenter)
         )
-        Text(text = "Screen $currentScreen",
-        modifier = Modifier.clickable {
-            if (currentScreen < screens.lastIndex) {
-                currentScreen++
-            }
-        })
+        CheckForLocationPermission(modifier = Modifier) {
+            Text(text = "Screen #$currentScreen",
+            modifier = Modifier.clickable {
+                if (currentScreen < screens.lastIndex) {
+                    currentScreen++
+                }
+            })
+        }
 
     }
 
