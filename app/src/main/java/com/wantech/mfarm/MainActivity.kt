@@ -15,8 +15,6 @@ import com.wantech.mfarm.core.presentation.MainViewModel
 import com.wantech.mfarm.core.util.NavigationHost
 import com.wantech.mfarm.ui.theme.MFarmTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 
 
 @AndroidEntryPoint
@@ -26,7 +24,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val isOnBoarded:Boolean by viewModel.isOnBoarded.collectAsState(false)
+            val isOnBoarded: Boolean by viewModel.isOnBoarded.collectAsState(false)
             MFarmTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -34,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavigationHost(navController = navController,isOnBoarded=isOnBoarded)
+                    NavigationHost(navController = navController, isOnBoarded = isOnBoarded)
                 }
             }
         }
