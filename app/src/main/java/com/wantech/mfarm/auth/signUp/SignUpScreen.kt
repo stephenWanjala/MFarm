@@ -2,16 +2,20 @@ package com.wantech.mfarm.auth.signUp
 
 import android.content.pm.ActivityInfo
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.wantech.mfarm.auth.signUp.presentation.CheckForLocationPermission
+import com.wantech.mfarm.auth.signUp.presentation.authCredentials.AuthCredentials
 import com.wantech.mfarm.auth.signUp.presentation.components.SignUpProgressIndicator
+import com.wantech.mfarm.auth.signUp.presentation.locationSacco.ChooseLocationSacco
+import com.wantech.mfarm.auth.signUp.presentation.personalDetails.PersonalDetails
 import com.wantech.mfarm.core.util.LockScreenOrientation
 
 
@@ -21,11 +25,6 @@ fun SignUpScreen(navController: NavController) {
     var currentScreen by remember {
         mutableStateOf(0)
     }
-    val screens = listOf(
-        SignUpPageParts.LocationAndSacco,
-        SignUpPageParts.PersonalDetails,
-        SignUpPageParts.AuthCredentials
-    )
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -38,17 +37,48 @@ fun SignUpScreen(navController: NavController) {
             screen = currentScreen,
             modifier = Modifier.align(Alignment.TopCenter)
         )
+
         CheckForLocationPermission(modifier = Modifier) {
-            Text(text = "Screen #$currentScreen",
-            modifier = Modifier.clickable {
-                if (currentScreen < screens.lastIndex) {
-                    currentScreen++
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+
+                when (currentScreen) {
+                    SignUpPageParts.LocationAndSacco.page -> ChooseLocationSacco()
+                    SignUpPageParts.PersonalDetails.page -> PersonalDetails()
+                    SignUpPageParts.AuthCredentials.page -> AuthCredentials()
+
                 }
-            })
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    AnimatedVisibility(visible = currentScreen > 0) {
+                        OutlinedButton(onClick = { if (currentScreen > 0) currentScreen-- }) {
+                            Text(text = "Back")
+                        }
+                    }
+                    NextButton(currentSegment = currentScreen,
+                        onclick = { currentScreen++ },
+                        onFinish = {
+
+                        })
+                }
+            }
+
         }
-
     }
-
 
 /*
         Card(
@@ -95,4 +125,21 @@ fun SignUpScreen(navController: NavController) {
         }*/
 
 
+}
+
+
+@Composable
+fun NextButton(
+    modifier: Modifier = Modifier,
+    currentSegment: Int,
+    onclick: () -> Unit,
+    onFinish: () -> Unit
+) {
+    val isLastScreen = currentSegment == 2
+    val buttonText = if (isLastScreen) "Finish" else "Next"
+    OutlinedButton(onClick = {
+        if (isLastScreen) onFinish() else onclick.invoke()
+    }, modifier = modifier) {
+        Text(text = buttonText)
+    }
 }

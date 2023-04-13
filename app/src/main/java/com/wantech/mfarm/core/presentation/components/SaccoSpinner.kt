@@ -20,7 +20,7 @@ import com.wantech.mfarm.ui.theme.MFarmTheme
 @Composable
 fun SaccoSpinner(
     list: List<Sacco>,
-    preselected: Sacco,
+    preselected: Sacco= Sacco(name = "Choose Sacco", email = "exampleemail.com", phone = "09876456", location = "at Location"),
     onSelectionChanged: (sacco: Sacco) -> Unit,
     modifier: Modifier = Modifier,
     isEnabled: () -> Boolean
@@ -63,7 +63,8 @@ fun SaccoSpinner(
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.fillMaxWidth()   // delete this modifier and use .wrapContentWidth() if you would like to wrap the dropdown menu around the content
+                modifier = Modifier.fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             ) {
                 list.forEach { listEntry ->
 
@@ -79,8 +80,8 @@ fun SaccoSpinner(
                                 text = listEntry.name,
                                 modifier = Modifier
                                     //.wrapContentWidth()  //optional instead of fillMaxWidth
-                                    .fillMaxWidth()
-                                    .align(Alignment.Start)
+//                                    .fillMaxWidth()
+                                    .align(Alignment.CenterHorizontally)
                             )
                         },
                     )
