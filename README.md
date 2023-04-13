@@ -22,11 +22,8 @@ Once installed, farmers can register on the app  to milk societies close to thei
 
 Support
 
-If you encounter any issues with the app or have any suggestions for improvement, 
-please contact
-    [Wanjala Stephen](mailto:stephenwanjala145@gmail.com)
-
-    [maina Alex](mailto:mainaalex789@gmail.com)
+If you encounter any issues with the app or have any suggestions for improvement, please contact
+    [Wanjala Stephen](mailto:stephenwanjala145@gmail.com) or [maina Alex](mailto:mainaalex789@gmail.com)
 
 Conclusion
 
