@@ -1,5 +1,6 @@
 package com.wantech.mfarm.onboarding.presentation
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,9 +17,11 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
 import com.wantech.mfarm.R
+import com.wantech.mfarm.core.util.LockScreenOrientation
 import com.wantech.mfarm.core.util.Screen
 import com.wantech.mfarm.onboarding.domain.model.OnBoardingItem
 import com.wantech.mfarm.onboarding.presentation.components.OnBoardingScreenItem
+import com.wantech.mfarm.onboarding.presentation.components.calculateCurrentOffsetForPage
 import kotlinx.coroutines.launch
 
 
@@ -50,6 +53,7 @@ fun OnBoardingScreen(
     )
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
+    LockScreenOrientation(orientation =Configuration.ORIENTATION_PORTRAIT)
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         HorizontalPager(
             modifier = Modifier
@@ -61,11 +65,14 @@ fun OnBoardingScreen(
         ) { page: Int ->
             OnBoardingScreenItem(
                 onBoardingItem = onBoardingItems[page],
-                isLastScreen = pagerState.currentPage == 2
+                isLastScreen = pagerState.currentPage == 2,
+                page = page,
+                pagerState = pagerState,
             ) {
                 if (pagerState.currentPage != 2) {
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage(page + 1)
+                        pagerState.animateScrollToPage(page=page+1,
+                        pageOffset = pagerState.calculateCurrentOffsetForPage(page+1))
                     }
                 } else {
                     viewModel.updateOnBoarding(true)
