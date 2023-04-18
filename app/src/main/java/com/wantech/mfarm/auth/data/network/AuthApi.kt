@@ -1,9 +1,12 @@
 package com.wantech.mfarm.auth.data.network
 
 import com.wantech.mfarm.core.domain.model.*
+import com.wantech.mfarm.core.util.Resource
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface AuthApi {
     @POST("api/login")
@@ -16,14 +19,14 @@ interface AuthApi {
         @Body registerRequest: RegisterRequest
     ): RegisterResponse
 
-    @GET("api/refresh")
-    suspend fun refreshToken(@Body refreshToken: String): LoginResponse
+    @GET("api/login/refresh")
+    suspend fun refreshToken(@Body refreshToken: String): Resource<Flow<LoginResponse>>
 
     @GET("api/logout")
     suspend fun logout(@Body refreshToken: String): LoginResponse
 
-    @GET("api/sacco")
-    suspend fun getSaccoByLocation(@Body location: String): Sacco
+    @GET("api/saccos")
+    suspend fun getSaccoSInLocation(@Query("location") location: String): Resource<Flow<List<Sacco>>>
 
 
 }
