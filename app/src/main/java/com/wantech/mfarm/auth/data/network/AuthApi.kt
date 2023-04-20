@@ -23,7 +23,7 @@ interface AuthApi {
     suspend fun refreshToken(@Body refreshToken: String): Resource<Flow<LoginResponse>>
 
     @GET("api/logout")
-    suspend fun logout(@Body refreshToken: String): LoginResponse
+    suspend fun logout(@Query("refresh_token")refreshToken: String): LoginResponse
 
     @GET("api/saccos")
     suspend fun getSaccoSInLocation(@Query("location") location: String): Resource<Flow<List<Sacco>>>

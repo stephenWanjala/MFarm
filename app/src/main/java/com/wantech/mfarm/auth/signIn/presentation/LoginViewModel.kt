@@ -27,8 +27,6 @@ class LoginViewModel @Inject constructor
     val state: State<LoginUiState> = _state
     private val _loginState = MutableStateFlow(LoginState())
     val loginState: SharedFlow<LoginState> = _loginState.asSharedFlow()
-    private val passwordRegex =
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,10}$"
 
 
     fun onEvent(event: LoginEvent) {
@@ -44,7 +42,7 @@ class LoginViewModel @Inject constructor
                 _state.value = state.value.copy(email = event.value)
             }
             is LoginEvent.EnteredPassword -> {
-                if (!Pattern.matches(passwordRegex, event.value)) {
+                if (event.value.length <8) {
                     _state.value =
                         state.value.copy(isPasswordError = LoginUiState.PasswordError.InvalidPassword)
                 } else {
@@ -68,6 +66,7 @@ class LoginViewModel @Inject constructor
 
     private fun login(email: String, password: String) {
         viewModelScope.launch {
+       _loginState.value = _loginState.value.copy(isLoading = true)
             repository.signInUserWithEmailAndPassword(LoginRequest(email, password))
                 .onEach { resource ->
                     when (resource) {
@@ -84,6 +83,7 @@ class LoginViewModel @Inject constructor
 
                 }
         }
+        _loginState.value=_loginState.value.copy(isLoading = false)
     }
 
 }

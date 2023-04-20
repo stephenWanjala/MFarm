@@ -8,7 +8,9 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.google.android.gms.location.LocationServices
 import com.wantech.mfarm.auth.data.network.AuthApi
 import com.wantech.mfarm.auth.data.repositoryImpl.AuthRepositoryImpl
+import com.wantech.mfarm.auth.data.repositoryImpl.LocationAndSaccoDetailsRepositoryImp
 import com.wantech.mfarm.auth.domain.repository.AuthRepository
+import com.wantech.mfarm.auth.domain.repository.LocationAndSaccoDetails
 import com.wantech.mfarm.core.data.MFarmPreferences
 import com.wantech.mfarm.core.data.MFarmPreferences.Companion.MFARMPREFERENCES
 import com.wantech.mfarm.onboarding.data.repositoryImpl.UserdataRepositoryImpl
@@ -30,7 +32,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(): AuthRepository = AuthRepositoryImpl()
+    fun provideAuthRepository(api: AuthApi): AuthRepository = AuthRepositoryImpl(api = api)
 
     @Provides
     @Singleton
@@ -54,11 +56,11 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFusedNetworkProvider(@ApplicationContext context: Context)
-    = LocationServices.getFusedLocationProviderClient(context)
+    fun provideFusedNetworkProvider(@ApplicationContext context: Context) =
+        LocationServices.getFusedLocationProviderClient(context)
 
 
-    private const val BaseUrl = "http://127.0.0.1:8000/"
+    private const val BaseUrl = "http://172.17.0.1:8000/"
 
     @Singleton
     @Provides
@@ -88,6 +90,10 @@ object AppModule {
     fun provideApiService(retrofit: Retrofit): AuthApi = retrofit.create(AuthApi::class.java)
 
 
+    @Singleton
+    @Provides
+    fun provideLocationAndSaccoRepository(api: AuthApi): LocationAndSaccoDetails =
+        LocationAndSaccoDetailsRepositoryImp(api = api)
 
 
 }

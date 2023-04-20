@@ -8,15 +8,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.wantech.mfarm.R
 import com.wantech.mfarm.auth.components.TextInPutSection
+import com.wantech.mfarm.auth.signIn.LoginEvent
 import com.wantech.mfarm.core.util.Screen
 
 
 @Composable
 fun SignInScreen(navController: NavController) {
-
+    val viewModel =hiltViewModel<LoginViewModel>()
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -42,8 +44,11 @@ fun SignInScreen(navController: NavController) {
 
 
                 TextInPutSection(
+                    viewModel=viewModel,
                     buttonLabel = stringResource(id = R.string.sign_in),
-                    onClickLoginButton = { navController.navigate(Screen.Home.route) },
+                    onClickLoginButton = {
+                                viewModel.onEvent(LoginEvent.Login)
+                    },
                     onClickToSignUp = {
                         navController.navigate(Screen.SignUp.route) {
                             popUpTo(Screen.SignUp.route) {
