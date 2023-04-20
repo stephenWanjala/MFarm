@@ -9,6 +9,6 @@ interface UserDataRepository {
     suspend fun onBoard(isOnBoarded: Boolean)
 
     suspend fun saveAuthenticatedStatus(loginResponse: LoginResponse)
-    suspend fun getAuthenticatedStatus(): Flow<LoginResponse>
+    suspend fun getAuthenticatedStatus(): Flow<LoginResponse?>
 
 }

@@ -60,7 +60,7 @@ object AppModule {
         LocationServices.getFusedLocationProviderClient(context)
 
 
-    private const val BaseUrl = "http://172.17.0.1:8000/"
+    private const val BaseUrl = "http://172.16.231.65:8080/"
 
     @Singleton
     @Provides

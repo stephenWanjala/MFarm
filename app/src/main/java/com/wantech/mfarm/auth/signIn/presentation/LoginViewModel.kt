@@ -9,24 +9,55 @@ import com.wantech.mfarm.auth.domain.repository.AuthRepository
 import com.wantech.mfarm.auth.signIn.LoginEvent
 import com.wantech.mfarm.auth.signIn.LoginState
 import com.wantech.mfarm.auth.signIn.LoginUiState
+import com.wantech.mfarm.auth.signUp.Post
 import com.wantech.mfarm.core.domain.model.LoginRequest
+import com.wantech.mfarm.core.domain.model.LoginResponse
 import com.wantech.mfarm.core.util.Resource
+import com.wantech.mfarm.onboarding.domain.model.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor
-    (private val repository: AuthRepository) : ViewModel() {
+    (
+    private val repository: AuthRepository,
+    private val userDataRepository: UserDataRepository
+) : ViewModel() {
     private val _state = mutableStateOf(LoginUiState())
     val state: State<LoginUiState> = _state
     private val _loginState = MutableStateFlow(LoginState())
-    val loginState: SharedFlow<LoginState> = _loginState.asSharedFlow()
+    val loginState = _loginState.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(),
+        LoginState()
+    )
+
+    val accesToken = mutableStateOf("")
+    var posts = mutableStateOf(PostsData())
+
+    init {
+        viewModelScope.launch {
+            repository.signInUserWithEmailAndPassword(
+                LoginRequest(
+                    email = "maina@gmail.com",
+                    password = "1234567890lon"
+                )
+            ).collectLatest { resposonse ->
+                when (resposonse) {
+                    is Resource.Error -> _loginState.value =
+                        loginState.value.copy(error = resposonse.uiText)
+                    is Resource.Loading -> _loginState.value =
+                        loginState.value.copy(isLoading = true)
+                    is Resource.Success -> {
+                        resposonse.data?.let { data->
+                            accesToken.value =data.access
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 
     fun onEvent(event: LoginEvent) {
@@ -42,7 +73,7 @@ class LoginViewModel @Inject constructor
                 _state.value = state.value.copy(email = event.value)
             }
             is LoginEvent.EnteredPassword -> {
-                if (event.value.length <8) {
+                if (event.value.length < 8) {
                     _state.value =
                         state.value.copy(isPasswordError = LoginUiState.PasswordError.InvalidPassword)
                 } else {
@@ -55,8 +86,7 @@ class LoginViewModel @Inject constructor
                 _state.value = state.value.copy(isPasswordVisible = !state.value.isPasswordVisible)
             }
             LoginEvent.Login -> {
-
-                login(email = state.value.email, password = state.value.password)
+//                login(email = state.value.email, password = state.value.password)
             }
         }
         _state.value =
@@ -64,9 +94,18 @@ class LoginViewModel @Inject constructor
 
     }
 
+
+//    private fun getPosts() {
+//        viewModelScope.launch {
+//            repository.getPosts().collectLatest { listOfposts ->
+//                posts.value = posts.value.copy(post = listOfposts)
+//            }
+//        }
+//    }
+
     private fun login(email: String, password: String) {
         viewModelScope.launch {
-       _loginState.value = _loginState.value.copy(isLoading = true)
+            _loginState.value = _loginState.value.copy(isLoading = true)
             repository.signInUserWithEmailAndPassword(LoginRequest(email, password))
                 .onEach { resource ->
                     when (resource) {
@@ -83,7 +122,10 @@ class LoginViewModel @Inject constructor
 
                 }
         }
-        _loginState.value=_loginState.value.copy(isLoading = false)
+        _loginState.value = _loginState.value.copy(isLoading = false)
     }
 
 }
+
+
+data class PostsData(var post: List<Post> = emptyList())

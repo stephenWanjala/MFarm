@@ -14,10 +14,10 @@ class UserdataRepositoryImpl(private val mFarmPreferences: MFarmPreferences) :Us
     }
 
     override suspend fun saveAuthenticatedStatus(loginResponse: LoginResponse) {
-        TODO("Not yet implemented")
+        mFarmPreferences.saveAuthenticatedStatus(loginResponse = loginResponse)
     }
 
-    override suspend fun getAuthenticatedStatus(): Flow<LoginResponse> {
+    override suspend fun getAuthenticatedStatus(): Flow<LoginResponse?> {
         TODO("Not yet implemented")
     }
 }

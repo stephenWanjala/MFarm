@@ -33,11 +33,13 @@ class MFarmPreferences(private val dataStore: DataStore<Preferences>) {
     suspend fun saveAuthenticatedStatus(loginResponse: LoginResponse) {
         dataStore.edit { preference ->
            preference[isAuthenticated] = true
-            preference[ACCESSTOKEN] = loginResponse.accessToken
-            preference[REFRESHTOKEN] = loginResponse.refreshToken
+            preference[ACCESSTOKEN] = loginResponse.access
+            preference[REFRESHTOKEN] = loginResponse.refresh
 
         }
     }
+
+
 
 
 }

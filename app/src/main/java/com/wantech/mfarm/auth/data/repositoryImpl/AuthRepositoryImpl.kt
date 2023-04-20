@@ -2,6 +2,7 @@ package com.wantech.mfarm.auth.data.repositoryImpl
 
 import com.wantech.mfarm.auth.data.network.AuthApi
 import com.wantech.mfarm.auth.domain.repository.AuthRepository
+import com.wantech.mfarm.auth.signUp.Post
 import com.wantech.mfarm.core.domain.model.LoginRequest
 import com.wantech.mfarm.core.domain.model.LoginResponse
 import com.wantech.mfarm.core.domain.model.RegisterRequest
@@ -38,6 +39,12 @@ class AuthRepositoryImpl @Inject constructor(
                emit(Resource.Error(uiText = UiText.DynamicString(e.message?:"Unknown Error Happened")))
            }
        }
+    }
+
+    override suspend fun getPosts(): Flow<List<Post>> {
+     return  flow {
+         emit(api.getUsers())
+     }
     }
 
     override fun isCurrentUserExist(): Flow<Boolean> {
