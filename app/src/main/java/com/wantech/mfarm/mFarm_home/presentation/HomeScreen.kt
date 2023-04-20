@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.auth0.android.jwt.JWT
 import com.wantech.mfarm.auth.signIn.presentation.LoginViewModel
+import com.wantech.mfarm.core.util.asString
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
@@ -35,13 +36,9 @@ fun HomeScreen(navController: NavHostController) {
 
             val loginState = vieModel.loginState.collectAsState()
             if (loginState.value.error != null) {
-                Text(text = loginState.value.error.toString())
+                Text(text = loginState.value.error!!.asString())
             }
         }
 
     }
-}
-
-fun decodeJWT(token: String): JWT {
-    return JWT(token)
 }

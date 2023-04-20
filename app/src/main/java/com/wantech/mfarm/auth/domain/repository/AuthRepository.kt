@@ -1,6 +1,5 @@
 package com.wantech.mfarm.auth.domain.repository
 
-import com.wantech.mfarm.auth.signUp.Post
 import com.wantech.mfarm.core.domain.model.LoginRequest
 import com.wantech.mfarm.core.domain.model.LoginResponse
 import com.wantech.mfarm.core.domain.model.RegisterRequest
@@ -23,5 +22,5 @@ interface AuthRepository {
 
     suspend fun getUserId(): Flow<String>
 
-    suspend fun getPosts():Flow<List<Post>>
+
 }

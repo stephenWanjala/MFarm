@@ -1,6 +1,5 @@
 package com.wantech.mfarm.auth.data.network
 
-import com.wantech.mfarm.auth.signUp.Post
 import com.wantech.mfarm.core.domain.model.*
 import com.wantech.mfarm.core.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +28,6 @@ interface AuthApi {
     @GET("api/saccos")
     suspend fun getSaccoSInLocation(@Query("location") location: String): Resource<Flow<List<Sacco>>>
 
-    @GET("/posts")
-    suspend fun  getUsers():List<Post>
+
 
 }
