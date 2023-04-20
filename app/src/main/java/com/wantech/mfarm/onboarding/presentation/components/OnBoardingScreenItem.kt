@@ -10,19 +10,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.wantech.mfarm.core.presentation.components.ATextButton
 import com.wantech.mfarm.onboarding.domain.model.OnBoardingItem
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun OnBoardingScreenItem(
     modifier: Modifier = Modifier,
     onBoardingItem: OnBoardingItem,
     isLastScreen: Boolean = false,
+    pagerState:PagerState,
+    page:Int,
     onSkip: () -> Unit
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .pagerCubeInDepthTransition(page, pagerState),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
