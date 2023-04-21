@@ -12,7 +12,7 @@ import com.wantech.mfarm.onboarding.presentation.OnBoardingScreen
 
 @Composable
 fun NavigationHost(navController: NavHostController, isOnBoarded: Boolean) {
-    val startDestination =Screen.Home.route
+    val startDestination =if (isOnBoarded) Screen.SignIn.route else Screen.OnBoarding.route
     NavHost(navController = navController, startDestination = startDestination) {
         composable(Screen.OnBoarding.route) {
             OnBoardingScreen(navController = navController)
@@ -35,7 +35,7 @@ fun NavigationHost(navController: NavHostController, isOnBoarded: Boolean) {
         }
 
         composable(Screen.Home.route) {
-            HomeScreen(navController = navController)
+            HomeScreen()
         }
 
     }

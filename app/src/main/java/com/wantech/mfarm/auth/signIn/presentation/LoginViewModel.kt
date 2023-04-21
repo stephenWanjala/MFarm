@@ -16,7 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,28 +38,7 @@ class LoginViewModel @Inject constructor
 
 
     init {
-        viewModelScope.launch {
-            repository.signInUserWithEmailAndPassword(
-                LoginRequest(
-                    email = "james@gmail.com",
-                    password = "Qwrt90Anmx"
-                )
-            ).collectLatest { resposonse ->
-                when (resposonse) {
-                    is Resource.Error -> _loginState.value =
-                        loginState.value.copy(error = resposonse.uiText)
-
-                    is Resource.Loading -> _loginState.value =
-                        loginState.value.copy(isLoading = true)
-
-                    is Resource.Success -> {
-                        resposonse.data?.let { data ->
-                            accesToken.value = data.access
-                        }
-                    }
-                }
-            }
-        }
+        
     }
 
 
@@ -93,7 +71,7 @@ class LoginViewModel @Inject constructor
             }
 
             LoginEvent.Login -> {
-//                login(email = state.value.email, password = state.value.password)
+                loginFarmer()
             }
         }
         _state.value =
@@ -101,30 +79,36 @@ class LoginViewModel @Inject constructor
 
     }
 
-
-    private fun login(email: String, password: String) {
+    private fun loginFarmer() {
         viewModelScope.launch {
-            _loginState.value = _loginState.value.copy(isLoading = true)
-            repository.signInUserWithEmailAndPassword(LoginRequest(email, password))
-                .onEach { resource ->
-                    when (resource) {
-                        is Resource.Error -> {
-                            _loginState.emit(LoginState(error = resource.uiText))
-                        }
+            repository.signInUserWithEmailAndPassword(
+                LoginRequest(
+                    email = state.value.email,
+                    password = state.value.password
+                )
+            ).collectLatest { resposonse ->
+                when (resposonse) {
+                    is Resource.Error -> _loginState.value =
+                        loginState.value.copy(error = resposonse.uiText)
 
-                        is Resource.Loading -> {
-                            _loginState.emit(LoginState(isLoading = true))
-                        }
+                    is Resource.Loading -> _loginState.value =
+                        loginState.value.copy(isLoading = true)
 
-                        is Resource.Success -> {
-                            _loginState.emit(LoginState(login = resource.data))
+                    is Resource.Success -> {
+                        resposonse.data?.let { data ->
+                            accesToken.value = data.access
+                            _loginState.value=loginState.value.copy(login = data)
                         }
+                        _loginState.value = loginState.value.copy(isLoading = false)
+
                     }
-
                 }
+            }
         }
-        _loginState.value = _loginState.value.copy(isLoading = false)
     }
+
+
+
 
 }
 

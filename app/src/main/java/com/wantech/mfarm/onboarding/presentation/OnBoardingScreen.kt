@@ -21,7 +21,6 @@ import com.wantech.mfarm.core.util.LockScreenOrientation
 import com.wantech.mfarm.core.util.Screen
 import com.wantech.mfarm.onboarding.domain.model.OnBoardingItem
 import com.wantech.mfarm.onboarding.presentation.components.OnBoardingScreenItem
-import com.wantech.mfarm.onboarding.presentation.components.calculateCurrentOffsetForPage
 import kotlinx.coroutines.launch
 
 
@@ -71,8 +70,7 @@ fun OnBoardingScreen(
             ) {
                 if (pagerState.currentPage != 2) {
                     coroutineScope.launch {
-                        pagerState.animateScrollToPage(page=page+1,
-                        pageOffset = pagerState.calculateCurrentOffsetForPage(page+1))
+                        pagerState.animateScrollToPage(page=page+1)
                     }
                 } else {
                     viewModel.updateOnBoarding(true)
