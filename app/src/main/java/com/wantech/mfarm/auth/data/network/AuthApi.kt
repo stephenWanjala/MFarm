@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AuthApi {
@@ -25,8 +26,8 @@ interface AuthApi {
     @GET("api/logout")
     suspend fun logout(@Query("refresh_token")refreshToken: String): LoginResponse
 
-    @GET("api/saccos")
-    suspend fun getSaccoSInLocation(@Query("location") location: String): Resource<Flow<List<Sacco>>>
+    @GET("api/saccos/{location}")
+    suspend fun getSaccoSInLocation(@Path("location") location: String): List<Sacco>
 
 
 

@@ -40,5 +40,5 @@ data class SignUpUIState(
 data class SignUpState(
     val isLoading: Boolean = false,
     val signUp: RegisterResponse? = null,
-    val error: UiText? = null
+    val error: UiText? = null,
 )
