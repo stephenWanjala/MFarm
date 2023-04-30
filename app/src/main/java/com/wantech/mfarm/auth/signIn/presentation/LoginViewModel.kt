@@ -73,6 +73,12 @@ class LoginViewModel @Inject constructor
             LoginEvent.Login -> {
                 loginFarmer()
             }
+
+            is LoginEvent.SaveAuthenticatedStatus -> {
+                viewModelScope.launch {
+                    userDataRepository.saveAuthenticatedStatus(event.loginResponse)
+                }
+            }
         }
         _state.value =
             state.value.copy(isLoginButtonEnabled = (state.value.isPasswordError == null && state.value.isEmailError == null))

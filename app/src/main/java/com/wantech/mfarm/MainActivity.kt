@@ -7,14 +7,17 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
 import com.wantech.mfarm.core.presentation.MainViewModel
 import com.wantech.mfarm.core.util.NavigationHost
 import com.wantech.mfarm.ui.theme.MFarmTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -22,9 +25,16 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition {
+            lifecycleScope.launch {
+                delay(3000)
+            }
+            !viewModel.isLoading.value
+        }
 
         setContent {
-            val isOnBoarded: Boolean by viewModel.isOnBoarded.collectAsState(false)
+            val start by viewModel.startDestination
+
             MFarmTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -32,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavigationHost(navController = navController, isOnBoarded = isOnBoarded)
+                    NavigationHost(navController = navController, startDestination = start)
                 }
             }
         }
