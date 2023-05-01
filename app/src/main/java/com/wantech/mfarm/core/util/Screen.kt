@@ -1,7 +1,7 @@
 package com.wantech.mfarm.core.util
 
 sealed class Screen(val route:String){
-    object Home:Screen("home_screen")
+    object Home:Screen("home")
     object SignUp:Screen("sign_up")
     object SignIn:Screen("sign_in")
     object ForgotPassword:Screen("forgot_password")
@@ -9,7 +9,6 @@ sealed class Screen(val route:String){
 
     object Profile:Screen("profile")
     object Settings:Screen("settings")
-    object HomeView:Screen("home")
 
 
 

@@ -7,7 +7,6 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface AuthApi {
     @POST("api/login/")
@@ -24,7 +23,7 @@ interface AuthApi {
     suspend fun refreshToken(@Body refreshToken: String): Resource<Flow<LoginResponse>>
 
     @GET("api/logout")
-    suspend fun logout(@Query("refresh_token")refreshToken: String): LoginResponse
+    suspend fun logout(@Path("refresh_token")refreshToken: String): LoginResponse
 
     @GET("api/saccos/{location}")
     suspend fun getSaccoSInLocation(@Path("location") location: String): List<Sacco>
