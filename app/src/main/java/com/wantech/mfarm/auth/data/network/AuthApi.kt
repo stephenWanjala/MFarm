@@ -5,6 +5,7 @@ import com.wantech.mfarm.core.util.Resource
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -27,6 +28,12 @@ interface AuthApi {
 
     @GET("api/saccos/{location}")
     suspend fun getSaccoSInLocation(@Path("location") location: String): List<Sacco>
+
+
+    @GET("api/milk_evaluations")
+    suspend fun getMilkEvaluations(
+        @Header("Authorization") authToken: String
+    ): List<MilkEvaluation>
 
 
 

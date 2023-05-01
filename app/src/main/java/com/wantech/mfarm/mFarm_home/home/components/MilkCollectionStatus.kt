@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.wantech.mfarm.core.domain.model.Evaluation
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -27,14 +28,14 @@ fun MilkCollectionStatus(modifier: Modifier = Modifier) {
     ) {
         TableRow(
             table = listOf(
-                MilkEvaluation(
+                Evaluation(
                     farmer = "James",
                     time = LocalDateTime.now(),
                     quantity = 50.67,
                     status = "Fresh",
                     grossBilling = 12000.89
                 ),
-                MilkEvaluation(
+                Evaluation(
                     farmer = "James",
                     time = LocalDateTime.now().plusMinutes(15),
                     quantity = 53.67,
@@ -65,7 +66,7 @@ fun Table(
 }
 
 @Composable
-fun TableRow(modifier: Modifier = Modifier, table: List<MilkEvaluation>) {
+fun TableRow(modifier: Modifier = Modifier, table: List<Evaluation>) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(6.dp)
@@ -102,14 +103,7 @@ fun TableRow(modifier: Modifier = Modifier, table: List<MilkEvaluation>) {
     }
 }
 
-data class MilkEvaluation(
-    val farmer: String,
-    val time: LocalDateTime,
-    val quantity: Double,
-    val status: String,
-    val grossBilling: Double,
 
-    )
 
 
 @Preview

@@ -22,5 +22,7 @@ interface AuthRepository {
 
     suspend fun getUserId(): Flow<String>
 
+    suspend fun getEvalutaions(authToken:String):Flow<Resource<List<MilKEvaluation>>>
+
 
 }
