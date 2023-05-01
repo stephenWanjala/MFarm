@@ -1,10 +1,13 @@
 package com.wantech.mfarm.auth.signIn.presentation
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.wantech.mfarm.auth.signIn.LoginSection
-import com.wantech.mfarm.core.util.Screen
 
 
 @Composable
@@ -22,7 +25,7 @@ fun SignInScreen(
     }
    LaunchedEffect(key1 = accesToken ){
        if (accesToken.value.isNotEmpty()){
-           navController.navigate(Screen.Home.route)
+           onNavigate()
        }
    }
     if (accesToken.value.isEmpty()) {
@@ -33,5 +36,7 @@ fun SignInScreen(
             onNavigateToSignUpScreen = onNavigateToSignUpScreen,
             navController = navController
         )
+    } else{
+        onNavigate()
     }
 }

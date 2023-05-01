@@ -1,5 +1,6 @@
 package com.wantech.mfarm
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,12 +14,13 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.wantech.mfarm.core.presentation.MainViewModel
 import com.wantech.mfarm.core.util.NavigationHost
+import com.wantech.mfarm.mFarm_home.presentation.HomeScreenActivity
 import com.wantech.mfarm.ui.theme.MFarmTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class AuthActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,15 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavigationHost(navController = navController, startDestination = start)
+                    NavigationHost(
+                        navController = navController,
+                        startDestination = start,
+                        onNavigate = {
+                            val intent = Intent(this@AuthActivity, HomeScreenActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        })
+
                 }
             }
         }

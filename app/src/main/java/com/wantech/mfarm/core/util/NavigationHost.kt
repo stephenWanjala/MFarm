@@ -7,11 +7,14 @@ import androidx.navigation.compose.composable
 import com.wantech.mfarm.auth.forgot_password.presentation.ForgotPasswordScreen
 import com.wantech.mfarm.auth.signIn.presentation.SignInScreen
 import com.wantech.mfarm.auth.signUp.SignUpScreen
-import com.wantech.mfarm.mFarm_home.presentation.HomeScreen
 import com.wantech.mfarm.onboarding.presentation.OnBoardingScreen
 
 @Composable
-fun NavigationHost(navController: NavHostController, startDestination:String) {
+fun NavigationHost(
+    navController: NavHostController,
+    startDestination: String,
+    onNavigate: () -> Unit
+) {
 
     NavHost(navController = navController, startDestination = startDestination) {
         composable(Screen.OnBoarding.route) {
@@ -20,9 +23,7 @@ fun NavigationHost(navController: NavHostController, startDestination:String) {
 
         composable(Screen.SignIn.route) {
             SignInScreen(navController = navController,
-                onNavigate = {
-                    navController.navigate(Screen.Home.route)
-                },
+                onNavigate = onNavigate,
                 onNavigateToSignUpScreen = {
                     navController.navigate(Screen.SignUp.route)
                 })
@@ -34,9 +35,6 @@ fun NavigationHost(navController: NavHostController, startDestination:String) {
             ForgotPasswordScreen(navController = navController)
         }
 
-        composable(Screen.Home.route) {
-            HomeScreen()
-        }
 
     }
 }

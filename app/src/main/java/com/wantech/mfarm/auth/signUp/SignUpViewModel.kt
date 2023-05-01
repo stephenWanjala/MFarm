@@ -87,6 +87,9 @@ class SignUpViewModel @Inject constructor(
         }
 
         SignupEvent.GetSaccos -> getSacosInLocation()
+        is SignupEvent.SelectedSacco -> {
+            _state.value =state.value.copy(selectedSacco = event.value)
+        }
     }
 
 
