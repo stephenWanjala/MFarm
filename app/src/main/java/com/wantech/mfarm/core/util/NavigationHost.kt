@@ -7,19 +7,26 @@ import androidx.navigation.compose.composable
 import com.wantech.mfarm.auth.forgot_password.presentation.ForgotPasswordScreen
 import com.wantech.mfarm.auth.signIn.presentation.SignInScreen
 import com.wantech.mfarm.auth.signUp.SignUpScreen
-import com.wantech.mfarm.mFarm_home.presentation.HomeScreen
 import com.wantech.mfarm.onboarding.presentation.OnBoardingScreen
 
 @Composable
-fun NavigationHost(navController: NavHostController, isOnBoarded: Boolean) {
-    val startDestination = Screen.SignUp.route
+fun NavigationHost(
+    navController: NavHostController,
+    startDestination: String,
+    onNavigate: () -> Unit
+) {
+
     NavHost(navController = navController, startDestination = startDestination) {
         composable(Screen.OnBoarding.route) {
             OnBoardingScreen(navController = navController)
         }
 
         composable(Screen.SignIn.route) {
-            SignInScreen(navController = navController)
+            SignInScreen(navController = navController,
+                onNavigate = onNavigate,
+                onNavigateToSignUpScreen = {
+                    navController.navigate(Screen.SignUp.route)
+                })
         }
         composable(Screen.SignUp.route) {
             SignUpScreen(navController = navController)
@@ -28,9 +35,6 @@ fun NavigationHost(navController: NavHostController, isOnBoarded: Boolean) {
             ForgotPasswordScreen(navController = navController)
         }
 
-        composable(Screen.Home.route) {
-            HomeScreen(navController = navController)
-        }
 
     }
 }

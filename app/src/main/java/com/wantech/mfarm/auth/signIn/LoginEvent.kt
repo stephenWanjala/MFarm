@@ -8,8 +8,8 @@ sealed class LoginEvent {
     data class EnteredPassword(val value: String) : LoginEvent()
     object TogglePasswordVisibility : LoginEvent()
     object Login : LoginEvent()
+    data class SaveAuthenticatedStatus(val loginResponse: LoginResponse) : LoginEvent()
 }
-
 
 
 data class LoginUiState(

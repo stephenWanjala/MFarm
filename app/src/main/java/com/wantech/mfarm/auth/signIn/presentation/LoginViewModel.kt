@@ -11,24 +11,35 @@ import com.wantech.mfarm.auth.signIn.LoginState
 import com.wantech.mfarm.auth.signIn.LoginUiState
 import com.wantech.mfarm.core.domain.model.LoginRequest
 import com.wantech.mfarm.core.util.Resource
+import com.wantech.mfarm.onboarding.domain.model.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor
-    (private val repository: AuthRepository) : ViewModel() {
+    (
+    private val repository: AuthRepository,
+    private val userDataRepository: UserDataRepository
+) : ViewModel() {
     private val _state = mutableStateOf(LoginUiState())
     val state: State<LoginUiState> = _state
     private val _loginState = MutableStateFlow(LoginState())
-    val loginState: SharedFlow<LoginState> = _loginState.asSharedFlow()
-    private val passwordRegex =
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,10}$"
+    val loginState = _loginState.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(),
+        LoginState()
+    )
+
+    val accesToken = mutableStateOf("")
+
+
+    init {
+        
+    }
 
 
     fun onEvent(event: LoginEvent) {
@@ -43,8 +54,9 @@ class LoginViewModel @Inject constructor
                 }
                 _state.value = state.value.copy(email = event.value)
             }
+
             is LoginEvent.EnteredPassword -> {
-                if (!Pattern.matches(passwordRegex, event.value)) {
+                if (event.value.length < 8) {
                     _state.value =
                         state.value.copy(isPasswordError = LoginUiState.PasswordError.InvalidPassword)
                 } else {
@@ -53,12 +65,19 @@ class LoginViewModel @Inject constructor
                 }
                 _state.value = state.value.copy(password = event.value)
             }
+
             LoginEvent.TogglePasswordVisibility -> {
                 _state.value = state.value.copy(isPasswordVisible = !state.value.isPasswordVisible)
             }
-            LoginEvent.Login -> {
 
-                login(email = state.value.email, password = state.value.password)
+            LoginEvent.Login -> {
+                loginFarmer()
+            }
+
+            is LoginEvent.SaveAuthenticatedStatus -> {
+                viewModelScope.launch {
+                    userDataRepository.saveAuthenticatedStatus(event.loginResponse)
+                }
             }
         }
         _state.value =
@@ -66,24 +85,37 @@ class LoginViewModel @Inject constructor
 
     }
 
-    private fun login(email: String, password: String) {
+    private fun loginFarmer() {
         viewModelScope.launch {
-            repository.signInUserWithEmailAndPassword(LoginRequest(email, password))
-                .onEach { resource ->
-                    when (resource) {
-                        is Resource.Error -> {
-                            _loginState.emit(LoginState(error = resource.uiText))
-                        }
-                        is Resource.Loading -> {
-                            _loginState.emit(LoginState(isLoading = true))
-                        }
-                        is Resource.Success -> {
-                            _loginState.emit(LoginState(login = resource.data))
-                        }
-                    }
+            repository.signInUserWithEmailAndPassword(
+                LoginRequest(
+                    email = state.value.email,
+                    password = state.value.password
+                )
+            ).collectLatest { resposonse ->
+                when (resposonse) {
+                    is Resource.Error -> _loginState.value =
+                        loginState.value.copy(error = resposonse.uiText)
 
+                    is Resource.Loading -> _loginState.value =
+                        loginState.value.copy(isLoading = true)
+
+                    is Resource.Success -> {
+                        resposonse.data?.let { data ->
+                            accesToken.value = data.access
+                            _loginState.value=loginState.value.copy(login = data)
+                        }
+                        _loginState.value = loginState.value.copy(isLoading = false)
+
+                    }
                 }
+            }
         }
     }
 
+
+
+
 }
+
+

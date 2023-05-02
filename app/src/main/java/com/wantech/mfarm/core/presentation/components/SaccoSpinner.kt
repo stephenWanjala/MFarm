@@ -19,10 +19,28 @@ import com.wantech.mfarm.ui.theme.MFarmTheme
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SaccoSpinner(
-    list: List<Sacco>,
-    preselected: Sacco= Sacco(name = "Choose Sacco", email = "exampleemail.com", phone = "09876456", location = "at Location"),
-    onSelectionChanged: (sacco: Sacco) -> Unit,
     modifier: Modifier = Modifier,
+    list: List<Sacco> =  listOf(
+        Sacco(
+            name = "Kisumu Sacco",
+            phone = "0712345678",
+            email = "kisumusacco@mail.com",
+            location = "Kisumu",
+        ),
+        Sacco(
+            name = "Nairobi Sacco",
+            phone = "0712345678",
+            email = "sacoo@nairobi.co.ke",
+            location = "Nairobi",
+        )
+    ),
+    preselected: Sacco =Sacco(
+        name = "Sacco",
+        email = "examplemail.com",
+        phone = "09876456",
+        location = "Location"
+    ) ,
+    onSelectionChanged: (sacco: Sacco) -> Unit,
     isEnabled: () -> Boolean
 ) {
 
@@ -63,7 +81,8 @@ fun SaccoSpinner(
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(horizontal = 16.dp),
             ) {
                 list.forEach { listEntry ->
@@ -98,24 +117,26 @@ fun SaccoSpinner(
 fun SpinnerSample_Preview() {
     MFarmTheme {
         val spinnerData =
-            listOf(Sacco(
-                name = "Kisumu Sacco",
-                phone = "0712345678",
-                email = "kisumusacco@mail.com",
-                location = "Kisumu",
-            ),
-            Sacco(
-                name = "Nairobi Sacco",
-                phone = "0712345678",
-                email = "sacoo@nairobi.co.ke",
-                location = "Nairobi",
-            ))
+            listOf(
+                Sacco(
+                    name = "Kisumu Sacco",
+                    phone = "0712345678",
+                    email = "kisumusacco@mail.com",
+                    location = "Kisumu",
+                ),
+                Sacco(
+                    name = "Nairobi Sacco",
+                    phone = "0712345678",
+                    email = "sacoo@nairobi.co.ke",
+                    location = "Nairobi",
+                )
+            )
 
         SaccoSpinner(
+            modifier = Modifier.fillMaxWidth(),
             spinnerData,
             preselected = spinnerData.first(),
             onSelectionChanged = { },
-            modifier = Modifier.fillMaxWidth(),
             isEnabled = {
                 true
             }

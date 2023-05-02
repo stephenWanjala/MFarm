@@ -1,10 +1,10 @@
 package com.wantech.mfarm.auth.components
 
 import android.content.res.Configuration
-import android.util.Patterns
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -19,9 +19,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.wantech.mfarm.R
 import com.wantech.mfarm.auth.signIn.LoginEvent
+import com.wantech.mfarm.auth.signIn.LoginState
 import com.wantech.mfarm.auth.signIn.presentation.LoginViewModel
 import com.wantech.mfarm.core.presentation.components.ATextButton
 import com.wantech.mfarm.core.presentation.components.InputTextField
@@ -33,9 +33,47 @@ fun TextInPutSection(
     onClickLoginButton: () -> Unit,
     onClickToSignUp: () -> Unit,
     onForgetPassword: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel
 ) {
 
+
+    val state = viewModel.state.value
+
+    val loginState = viewModel.loginState.collectAsState(initial = LoginState())
+
+
+
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        if (loginState.value.isLoading) {
+            CircularProgressIndicator(
+                strokeWidth = 3.dp,
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+
+        LoginTextFields(
+            onClickLoginButton = { onClickLoginButton()},
+            onClickToSignUp = onClickToSignUp,
+            onForgetPassword = {onForgetPassword() },
+            viewModel = viewModel,
+            buttonLabel = buttonLabel
+        )
+
+    }
+
+
+}
+
+
+@Composable
+fun LoginTextFields(
+    onClickLoginButton: () -> Unit,
+    onClickToSignUp: () -> Unit,
+    onForgetPassword: () -> Unit,
+    viewModel: LoginViewModel,
+    buttonLabel: String,
+) {
 
     val state = viewModel.state.value
     val configuration = LocalConfiguration.current
@@ -46,6 +84,7 @@ fun TextInPutSection(
     LaunchedEffect(key1 = configuration) {
         snapshotFlow { configuration.orientation }.collect { orientation = it }
     }
+
     when (orientation) {
         Configuration.ORIENTATION_LANDSCAPE -> {
             LazyColumn {
@@ -103,7 +142,8 @@ fun TextInPutSection(
 
                                 },
                                 keyboardOptions = KeyboardOptions(
-                                    keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
+                                    keyboardType = KeyboardType.Password,
+                                    imeAction = ImeAction.Done
                                 ),
                                 isError = state.isPasswordError != null,
                                 errorMessage = "Enter valid PassWord"
@@ -165,6 +205,7 @@ fun TextInPutSection(
 
 
         }
+
         else -> {
             LazyColumn {
                 item {
@@ -192,9 +233,9 @@ fun TextInPutSection(
                             textValue = state.email,
                             labelText = "Email",
                             onValueChange = { viewModel.onEvent(LoginEvent.EnteredEmail(it)) },
-                            isError = state.isEmailError!=null,
+                            isError = state.isEmailError != null,
                             errorMessage = "Enter valid Email Address"
-                            )
+                        )
 
 
                         PasswordTextField(
@@ -209,9 +250,9 @@ fun TextInPutSection(
                                 keyboardType = KeyboardType.Password, imeAction = ImeAction.Done
                             ),
                             errorMessage = "Enter a Strong Password",
-                            isError = state.isPasswordError!=null
+                            isError = state.isPasswordError != null
 
-                            )
+                        )
 
                         Row(
                             modifier = Modifier
@@ -243,13 +284,15 @@ fun TextInPutSection(
                             modifier = Modifier,
                             buttonEnabled =
                             {
-                          state.isLoginButtonEnabled
+                                state.isLoginButtonEnabled
                             }
 
                         )
 
                         TextButton(
-                            onClick = onClickToSignUp,
+                            onClick = {
+                                onClickToSignUp()
+                            },
                             modifier = Modifier.fillMaxWidth(),
                             contentPadding = PaddingValues(2.dp)
                         ) {
@@ -273,6 +316,4 @@ fun TextInPutSection(
         }
     }
 
-
 }
-

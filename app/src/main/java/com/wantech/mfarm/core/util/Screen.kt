@@ -7,4 +7,9 @@ sealed class Screen(val route:String){
     object ForgotPassword:Screen("forgot_password")
     object OnBoarding:Screen("on_boarding")
 
+    object Profile:Screen("profile")
+    object Settings:Screen("settings")
+
+
+
 }

@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.MFarm" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="windowSplashScreenAnimationDuration">600</item>
+        <item name="postSplashScreenTheme">@style/Theme.MFarm</item>
+    </style>
 </resources>
