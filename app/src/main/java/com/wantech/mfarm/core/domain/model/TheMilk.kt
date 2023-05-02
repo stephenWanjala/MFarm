@@ -4,9 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class MilkEvaluation(
-    val butter_fat: Double,
+data class TheMilk(
+    val dateCollected: String,
+    val farmer: Farmer,
     val id: Int,
-    val protein_content: Double,
-    val the_milk: TheMilk
+    val quantity: Int,
+    val status: Status
 ) : Parcelable
