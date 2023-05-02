@@ -2,9 +2,9 @@ package com.wantech.mfarm.auth.data.repositoryImpl
 
 import com.wantech.mfarm.auth.data.network.AuthApi
 import com.wantech.mfarm.auth.domain.repository.AuthRepository
-import com.wantech.mfarm.auth.domain.repository.MilKEvaluation
 import com.wantech.mfarm.core.domain.model.LoginRequest
 import com.wantech.mfarm.core.domain.model.LoginResponse
+import com.wantech.mfarm.core.domain.model.MilKEvaluation
 import com.wantech.mfarm.core.domain.model.RegisterRequest
 import com.wantech.mfarm.core.domain.model.RegisterResponse
 import com.wantech.mfarm.core.util.Resource
@@ -82,7 +82,7 @@ class AuthRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getEvalutaions(authToken: String): Flow<Resource<List<MilKEvaluation>>> {
+    override suspend fun getEvaluations(authToken: String): Flow<Resource<List<MilKEvaluation>>> {
         TODO("Not yet implemented")
     }
 

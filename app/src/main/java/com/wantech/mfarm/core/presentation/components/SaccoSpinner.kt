@@ -34,12 +34,12 @@ fun SaccoSpinner(
             location = "Nairobi",
         )
     ),
-    preselected: Sacco = if (list.isEmpty()) Sacco(
-        name = "Choose Sacco",
+    preselected: Sacco =Sacco(
+        name = "Sacco",
         email = "examplemail.com",
         phone = "09876456",
-        location = "at Location"
-    ) else list[0],
+        location = "Location"
+    ) ,
     onSelectionChanged: (sacco: Sacco) -> Unit,
     isEnabled: () -> Boolean
 ) {
