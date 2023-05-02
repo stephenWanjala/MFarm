@@ -2,6 +2,7 @@ package com.wantech.mfarm.auth.domain.repository
 
 import com.wantech.mfarm.core.domain.model.LoginRequest
 import com.wantech.mfarm.core.domain.model.LoginResponse
+import com.wantech.mfarm.core.domain.model.MilKEvaluation
 import com.wantech.mfarm.core.domain.model.RegisterRequest
 import com.wantech.mfarm.core.domain.model.RegisterResponse
 import com.wantech.mfarm.core.util.Resource
@@ -22,7 +23,7 @@ interface AuthRepository {
 
     suspend fun getUserId(): Flow<String>
 
-    suspend fun getEvalutaions(authToken:String):Flow<Resource<List<MilKEvaluation>>>
+    suspend fun getEvaluations(authToken:String):Flow<Resource<List<MilKEvaluation>>>
 
 
 }

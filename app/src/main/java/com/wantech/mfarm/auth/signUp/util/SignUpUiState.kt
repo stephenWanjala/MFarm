@@ -9,13 +9,12 @@ data class SignUpUIState(
     val userName: String = "",
     val email: String = "",
     val password: String = "",
+    val phoneNumber: String = "",
     val isPasswordVisible: Boolean = false,
     val isUserNameError: UsernameError? = null,
     val isEmailError: EmailError? = null,
     val isPasswordError: PasswordError? = null,
     val isNextButtonEnabled: Boolean = false,
-    val dayOneOfPreviousPeriod: Int = 0,
-    val periodLength: Int = 0,
     val isFinishEnabled: Boolean = false,
     val selectedSacco: Sacco?=null
 

@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -33,7 +37,9 @@ fun InputTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     onSendAction: (() -> Unit?)? = null,
     isError: Boolean = false,
-    errorMessage: String?=null
+    errorMessage: String?=null,
+    readOnly:Boolean=false,
+    placeHolder:String?=null
 
 ) {
     Box(
@@ -57,7 +63,8 @@ fun InputTextField(
 //            },
 //
             placeholder = {
-                Text(text = labelText)
+             val  holderText:String= placeHolder ?: labelText
+                Text(text = holderText)
             },
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -87,7 +94,8 @@ fun InputTextField(
                         color = MaterialTheme.colorScheme.error
                     )
                 }
-            }
+            },
+            readOnly = readOnly
         )
 
     }

@@ -1,5 +1,6 @@
 package com.wantech.mfarm.auth.signUp
 
+import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -45,7 +46,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun getSacosInLocation() {
         viewModelScope.launch {
-            saccoRepository.getSaccoByLocation("embu").collectLatest { resource->
+            saccoRepository.getSaccoByLocation("kisumu").collectLatest { resource->
                 when(resource){
                     is Resource.Error -> _signUpUIState.update { it.copy(error = resource.uiText) }
                     is Resource.Loading -> _signUpUIState.update { it.copy(isLoading = true) }
@@ -62,10 +63,23 @@ class SignUpViewModel @Inject constructor(
 
     fun onEvent(event: SignupEvent) = when (event) {
         is SignupEvent.EnteredEmail -> {
+            if (!Patterns.EMAIL_ADDRESS.matcher(event.value).matches()) {
+                _state.value =
+                    state.value.copy(isEmailError = SignUpUIState.EmailError.InvalidEmail)
+            } else {
+                _state.value = state.value.copy(isEmailError = null)
+
+            }
             _state.value = state.value.copy(email = event.value)
         }
 
         is SignupEvent.EnteredPassword -> {
+            if (event.value.length<8){
+                _state.value=state.value.copy(isPasswordError = SignUpUIState.PasswordError.InputTooShort)
+            } else{
+                _state.value=state.value.copy(isPasswordError = null)
+
+            }
             _state.value = state.value.copy(password = event.value)
         }
 
@@ -89,6 +103,10 @@ class SignUpViewModel @Inject constructor(
         SignupEvent.GetSaccos -> getSacosInLocation()
         is SignupEvent.SelectedSacco -> {
             _state.value =state.value.copy(selectedSacco = event.value)
+        }
+
+        is SignupEvent.EnteredPhoneNumber -> {
+            _state.value =state.value.copy(phoneNumber = event.value)
         }
     }
 
